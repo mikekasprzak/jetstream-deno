@@ -27,23 +27,12 @@ type JetStreamRecordRepost = {
   }
 }
 
-type JetStreamRecord = JetStreamRecordPost | JetStreamRecordRepost
-
 type JetStreamCommitCreate = {
   rev: string,
-  operation: 'create',
+  operation: 'create' | 'update',
   collection: string,
   rkey: string,
-  record: JetStreamRecord,
-  cid: string
-}
-
-type JetStreamCommitUpdate = {
-  rev: string,
-  operation: 'update',
-  collection: string,
-  rkey: string,
-  record: JetStreamRecord,
+  record: JetStreamRecordPost | JetStreamRecordRepost,
   cid: string
 }
 
@@ -54,13 +43,11 @@ type JetStreamCommitDelete = {
   rkey: string,
 }
 
-type JetStreamCommit = JetStreamCommitCreate | JetStreamCommitDelete | JetStreamCommitUpdate
-
 type JetStreamElementCommit = {
   did: string,
   time_us: number,
   kind: 'commit',
-  commit: JetStreamCommit
+  commit: JetStreamCommitCreate | JetStreamCommitDelete
 }
 
 type JetStreamElementIdentity = {
