@@ -92,7 +92,7 @@ export async function* jetstream(options?: {wantedCollections?: string[], cursor
 
   while (true) {
     try {
-      let args: string[] = 
+      const args: string[] =
         options && options.wantedCollections ? 
         options.wantedCollections.map((e) => `wantedCollections=${e}`) : 
         []
@@ -110,7 +110,8 @@ export async function* jetstream(options?: {wantedCollections?: string[], cursor
         cursorPos = data.time_us+1
         yield data as JetStreamElement
       }
-    } catch(e) {
+    } catch(nop) {
+      nop
     }
   }
 }
