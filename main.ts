@@ -27,14 +27,7 @@ type JetStreamRecordRepost = {
   }
 }
 
-/*
-type JetStreamRecordGeneric = {
-  '$type': string,
-  createdAt: string,
-}
-*/
-
-type JetStreamRecord = JetStreamRecordPost | JetStreamRecordRepost// | JetStreamRecordGeneric
+type JetStreamRecord = JetStreamRecordPost | JetStreamRecordRepost
 
 type JetStreamCommitCreate = {
   rev: string,
@@ -132,7 +125,7 @@ for await (const element of jetstream({
   wantedCollections: ["app.bsky.feed.post" /*, "app.bsky.feed.repost"*/], 
   /*cursor: 1749043869955643*/
 })) {
-  if (element.kind === 'commit' && element.commit.operation === 'create' && element.commit.record['$type'] === 'app.bsky.feed.post' && !element.commit.record.reply) {
+  if (element?.kind === 'commit' && element.commit?.operation === 'create' && element.commit.record?.['$type'] === 'app.bsky.feed.post' && !element.commit.record.reply) {
     console.log(element)
     if (!count--) {
       break
